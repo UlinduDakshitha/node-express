@@ -6,39 +6,47 @@ exports.getAllStudents = (req, res) => {
     if (err) return res.status(500).json(err);
     res.json(results);
   });
+};
 
-  exports.createStudent = (req, res) => {
-    const { name, age, grade } = req.body;  
-    db.query("INSERT INTO students (name, age, grade) VALUES (?, ?, ?)", [name, age, grade], (err, results) => {
+exports.createStudent = (req, res) => {
+  const { name, age, grade } = req.body;
+  db.query(
+    "INSERT INTO students (name, age, grade) VALUES (?, ?, ?)",
+    [name, age, grade],
+    (err, results) => {
       if (err) return res.status(500).json(err);
       res.status(201).json({ id: results.insertId, name, age, grade });
-    });
-  };
+    },
+  );
+};
 
-  exports.getStudentById = (req, res) => {
-    const { id } = req.params;
-    db.query("SELECT * FROM students WHERE id = ?", [id], (err, results) => {
-      if (err) return res.status(500).json(err);
-      if (results.length === 0) return res.status(404).json({ message: "Student not found" });
-      res.json(results[0]);
-    });
-  };
+exports.getStudentById = (req, res) => {
+  const { id } = req.params;
+  db.query("SELECT * FROM students WHERE id = ?", [id], (err, results) => {
+    if (err) return res.status(500).json(err);
+    if (results.length === 0)
+      return res.status(404).json({ message: "Student not found" });
+    res.json(results[0]);
+  });
+};
 
-  exports.updateStudent = (req, res) => {
-    const { id } = req.params;
-    const { name, age, grade } = req.body;      
-    db.query("UPDATE students SET name = ?, age = ?, grade = ? WHERE id = ?", [name, age, grade, id], (err) => {
+exports.updateStudent = (req, res) => {
+  const { id } = req.params;
+  const { name, age, grade } = req.body;
+  db.query(
+    "UPDATE students SET name = ?, age = ?, grade = ? WHERE id = ?",
+    [name, age, grade, id],
+    (err) => {
       if (err) return res.status(500).json(err);
       res.json({ id, name, age, grade });
-    });
-  };
+    },
+  );
+};
 
-  exports.deleteStudent = (req, res) => {
-    const { id } = req.params;  
-    db.query("DELETE FROM students WHERE id = ?", [id], (err) => {
-      if (err) return res.status(500).json(err);
-      res.json({ message: "Student deleted" });
-    });                  
-  }
-
+exports.deleteStudent = (req, res) => {
+  const { id } = req.params;
+  db.query("DELETE FROM students WHERE id = ?", [id], (err) => {
+    if (err) return res.status(500).json(err);
+    res.json({ message: "Student deleted" });
+  });
 };
