@@ -23,4 +23,13 @@ exports.getAllStudents = (req, res) => {
       res.json(results[0]);
     });
   };
+
+  exports.updateStudent = (req, res) => {
+    const { id } = req.params;
+    const { name, age, grade } = req.body;      
+    db.query("UPDATE students SET name = ?, age = ?, grade = ? WHERE id = ?", [name, age, grade, id], (err) => {
+      if (err) return res.status(500).json(err);
+      res.json({ id, name, age, grade });
+    });
+  };
 };
