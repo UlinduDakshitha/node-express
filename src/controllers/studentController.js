@@ -32,4 +32,13 @@ exports.getAllStudents = (req, res) => {
       res.json({ id, name, age, grade });
     });
   };
+
+  exports.deleteStudent = (req, res) => {
+    const { id } = req.params;  
+    db.query("DELETE FROM students WHERE id = ?", [id], (err) => {
+      if (err) return res.status(500).json(err);
+      res.json({ message: "Student deleted" });
+    });                  
+  }
+
 };
