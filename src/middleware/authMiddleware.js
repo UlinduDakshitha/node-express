@@ -1,4 +1,5 @@
- const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
+const jwtConfig = require("../config/jwt");
 
 module.exports = (req, res, next) => {
   const authHeader = req.headers["authorization"];
@@ -10,7 +11,7 @@ module.exports = (req, res, next) => {
   // REMOVE "Bearer "
   const token = authHeader.split(" ")[1];
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+  jwt.verify(token, jwtConfig.secret, (err, decoded) => {
     if (err) {
       return res.status(401).json({ message: "Unauthorized" });
     }
