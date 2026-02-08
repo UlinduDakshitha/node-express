@@ -14,4 +14,13 @@ exports.getAllStudents = (req, res) => {
       res.status(201).json({ id: results.insertId, name, age, grade });
     });
   };
+
+  exports.getStudentById = (req, res) => {
+    const { id } = req.params;
+    db.query("SELECT * FROM students WHERE id = ?", [id], (err, results) => {
+      if (err) return res.status(500).json(err);
+      if (results.length === 0) return res.status(404).json({ message: "Student not found" });
+      res.json(results[0]);
+    });
+  };
 };
