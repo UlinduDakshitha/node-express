@@ -29,10 +29,7 @@ exports.login = (req, res) => {
     if (!isValid)
       return res.status(401).json({ message: "Invalid password" });
 
-    const token = jwt.sign({ id: user.id }, jwtConfig.secret, {
-      expiresIn: jwtConfig.expiresIn
-    });
-
+    const token =jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "1h" });
     res.json({ token });
   });
 };
