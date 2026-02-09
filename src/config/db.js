@@ -7,4 +7,5 @@ const db = mysql.createPool({
   database: "node_express_studentmanagement"
 });
 
-module.exports = db;
+module.exports = db; 
+
